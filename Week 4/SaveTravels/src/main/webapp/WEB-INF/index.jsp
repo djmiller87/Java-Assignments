@@ -16,7 +16,8 @@
 	        <tr>
 	            <th>Expense</th>
 	            <th>Vendor</th>
-	            <th>Amount</th>	            
+	            <th>Amount</th>
+	            <th>Actions</th>	            
 	        </tr>
 	    </thead>
 	    <tbody>         
@@ -24,7 +25,8 @@
 		    	<tr>
 		    		<td>${oneExpense.expenseName}</td>
 				    <td>${oneExpense.vendor}</td>
-					<td>${oneExpense.amount}</td>					
+					<td>${oneExpense.amount}</td>
+					<td><a href="/expense/${oneExpense.id}/edit">Edit</a></td>					
 				</tr>
 	    	</c:forEach>
 	    </tbody>
