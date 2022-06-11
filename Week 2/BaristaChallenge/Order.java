@@ -39,7 +39,7 @@ class Order {
         }
     }
 
-    public double getOrderTotal(){
+    public Double getOrderTotal(){
         double sum = 0.00;
         for( Item i : this.items){
             sum = i.getItemPrice() + sum;

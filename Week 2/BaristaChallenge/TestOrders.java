@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class TestOrders {
     public static void main(String[] args) {
         Item item1 = new Item("Mocha", 4.25);
