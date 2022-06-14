@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.may22java.bookclub.models.Book;
+import com.may22java.bookclub.models.User;
 import com.may22java.bookclub.repositories.BookRepository;
 
 @Service
@@ -37,6 +38,17 @@ public class BookService {
 	public Book updateBook(Book book) {
 		return bookRepository.save(book);
 	}
+	
+	public void addBorrower(Book book, User user) {
+		book.setBorrower(user);
+		bookRepository.save(book);
+	}
+	
+	public void removeBorrower(Book book) {
+		book.setBorrower(null);
+		bookRepository.save(book);
+	}
+		
 	
 	public void deleteBook(Long id) {
 		bookRepository.deleteById(id);

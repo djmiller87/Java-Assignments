@@ -19,9 +19,10 @@
 				<a href="/dashboard">back to the shelves</a>
 			</div>
 			<div>				
-				<form:form action="/book/${book.id}" method="post" modelAttribute="book">
+				<form:form action="/book/${book.id}" method="POST" modelAttribute="book">
 					<input type="hidden" name="_method" value="put"/>
-					<form:input path="user" type="hidden" value="${book.user}"/>
+					<form:input path="user" type="hidden" value="${book.user.id}"/>
+					<form:input path="borrower" type="hidden" value="${book.borrower.id}"/>
 					<div class="row mb-3">
 						<form:label path="title" class="form-label">Title:</form:label>
 						<form:errors path="title" class="text-danger m-1"></form:errors>
@@ -43,8 +44,9 @@
 							<form:textarea path="thoughts" type="password" class="form-control"/>
 						</div>
 					</div>					
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<input type="submit" class="btn btn-primary" value="Submit"/>
 				</form:form>
+				<a href="/book/${book.id}/delete"><button class="btn btn-danger my-4">Delete</button></a>
 			</div>			
 		</div>
 	</div>

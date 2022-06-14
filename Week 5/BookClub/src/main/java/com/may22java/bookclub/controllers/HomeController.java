@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.may22java.bookclub.models.Book;
 import com.may22java.bookclub.models.LoginUser;
@@ -72,7 +74,7 @@ public class HomeController {
 			Model model, 
 			HttpSession session) {
 		List<Book> books = bookService.findAll();
-		model.addAttribute("books", books);
+		model.addAttribute("books", books);	
 		if(session.getAttribute("loggedInUser") != null) {
 			return "dashboard.jsp";
 		}
@@ -106,18 +108,42 @@ public class HomeController {
 	
 	@GetMapping("book/{id}/edit")
 	public String editBook(@PathVariable("id")Long id, Model model) {		
-		Book abook = bookService.findBook(id);
-		model.addAttribute("book", abook);
+		Book book = bookService.findBook(id);
+		model.addAttribute("book", book);
 		return "updateBook.jsp";		
 	}
 	
 	@PutMapping("book/{id}")
-	public String updateBook(@Valid @ModelAttribute("book")Book book, BindingResult result, Model model) {
+	public String updateBook(
+			@Valid @ModelAttribute("book")Book book, 
+			BindingResult result) {		
 		if(result.hasErrors()) {
-			model.addAttribute(book);
 			return "updateBook.jsp";
 		}
+		else {
 		bookService.updateBook(book);
+		return "redirect:/dashboard";
+		}
+	}
+	
+	@GetMapping("/book/{id}/borrow")
+	public String borrowBook(@PathVariable("id")Long id,HttpSession session) {
+		Book book = bookService.findBook(id);		
+		User borrower = (User) session.getAttribute("loggedInUser");
+		bookService.addBorrower(book, borrower);
+		return "redirect:/dashboard";		
+	}
+	
+	@GetMapping("/book/{id}/return")
+	public String returnBook(@PathVariable("id")Long id) {
+		Book book = bookService.findBook(id);			
+		bookService.removeBorrower(book);
+		return "redirect:/dashboard";		
+	}
+	
+	@GetMapping("/book/{id}/delete")
+	public String deleteBook(@PathVariable("id")Long id) {
+		bookService.deleteBook(id);
 		return "redirect:/dashboard";
 	}
 	
